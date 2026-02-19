@@ -16,6 +16,15 @@ trap cleanup EXIT
 echo "==> Release preflight"
 echo "==> Package: $PACKAGE_NAME@$PACKAGE_VERSION"
 
+# CI-safe defaults for Adonis env validation during tests.
+export NODE_ENV="${NODE_ENV:-test}"
+export TZ="${TZ:-UTC}"
+export PORT="${PORT:-3333}"
+export HOST="${HOST:-127.0.0.1}"
+export LOG_LEVEL="${LOG_LEVEL:-info}"
+export SESSION_DRIVER="${SESSION_DRIVER:-cookie}"
+export APP_KEY="${APP_KEY:-release_preflight_app_key_32_chars_minimum_ok}"
+
 echo "==> Typecheck"
 npm run -s typecheck
 
