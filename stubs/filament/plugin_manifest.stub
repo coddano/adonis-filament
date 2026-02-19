@@ -1,0 +1,15 @@
+{{{
+  exports({
+    to: app.makePath('app/Plugins', pluginDirectoryName, 'plugin.manifest.json')
+  })
+}}}
+{
+  "id": "{{ pluginId }}",
+  "name": "{{ pluginName }}",
+  "version": "0.1.0",
+  "engine": ">=0.1.0",
+  "assets": [],
+  "migrations": [],
+  "entry": "./{{ pluginClassName }}.js",
+  "description": "{{ pluginName }} plugin for Adonis Admin Engine"
+}

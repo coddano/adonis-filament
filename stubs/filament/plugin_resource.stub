@@ -1,0 +1,35 @@
+{{{
+  exports({
+    to: app.makePath('app/Plugins', pluginDirectoryName, 'Resources', resourceClassName + '.ts')
+  })
+}}}
+import { Resource } from '#filament/Core/Resource'
+import { Form } from '#filament/Forms/Form'
+import { Table } from '#filament/Tables/Table'
+import { TextInput } from '#filament/Forms/Components/TextInput'
+import { TextColumn } from '#filament/Tables/Columns/TextColumn'
+
+export default class {{ resourceClassName }} extends Resource {
+  // Replace with your Lucid model (ex: import MyModel from '#models/my_model')
+  public static model = null as any
+
+  public static slug = '{{ resourceSlug }}'
+  public static navigationIcon = '{{ icon }}'
+  public static navigationLabel = '{{ resourceLabel }}'
+  public static singularLabel = '{{ resourceSingularLabel }}'
+
+  public static form(form: Form): Form {
+    return form.schema([
+      TextInput.make('name').required(),
+    ])
+  }
+
+  public static table(table: Table): Table {
+    return table
+      .columns([
+        TextColumn.make('id').sortable(),
+        TextColumn.make('name').searchable(),
+      ])
+      .defaultSort('id', 'desc')
+  }
+}

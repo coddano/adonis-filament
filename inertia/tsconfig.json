@@ -1,0 +1,17 @@
+{
+  "extends": "@adonisjs/tsconfig/tsconfig.client.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "module": "ESNext",
+    "jsxImportSource": "vue",
+    "noUnusedLocals": false,
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "#filament/*": ["../app/Filament/*"],
+      "#admin/*": ["../app/Admin/*"]
+    }
+  },
+  "include": ["./env.d.ts", "./**/*.ts", "./**/*.vue"]
+}

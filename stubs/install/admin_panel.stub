@@ -1,0 +1,20 @@
+{{{
+  exports({
+    to: app.makePath('app/Admin/Panels/AdminPanel.ts')
+  })
+}}}
+import { Panel } from '#filament/Core/Panel'
+
+export default class AdminPanel extends Panel {
+  public id = 'admin'
+  public path = '/admin'
+  public label = 'Administration'
+
+  public resources = [
+    // Register your resources here
+  ]
+
+  public pages = [
+    // Register your custom pages here
+  ]
+}

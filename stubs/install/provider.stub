@@ -1,0 +1,20 @@
+{{{
+  exports({
+    to: app.makePath('providers/filament_provider.ts')
+  })
+}}}
+import { ApplicationService } from '@adonisjs/core/types'
+import filament from '#filament/Core/FilamentManager'
+import AdminPanel from '../app/Admin/Panels/AdminPanel.js'
+
+export default class FilamentProvider {
+  constructor(protected app: ApplicationService) {}
+
+  public async boot() {
+    await filament.discoverPlugins({
+      cwd: this.app.makePath(),
+    })
+
+    filament.registerPanel('admin', new AdminPanel())
+  }
+}

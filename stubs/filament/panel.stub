@@ -1,0 +1,42 @@
+{{#var panelFileName = string(panelName).pascalCase().suffix('Panel').toString()}}
+{{{
+  exports({
+    to: app.makePath('app/Admin/Panels', panelFileName + '.ts')
+  })
+}}}
+import { Panel } from '#filament/Core/Panel'
+import { Dashboard } from '#filament/Core/Dashboard'
+import { StatsWidget, ChartWidget, TableWidget } from '#filament/Widgets/index'
+
+export default class {{ panelFileName }} extends Panel {
+  public id = '{{ panelId }}'
+  public path = '/{{ panelPath }}'
+  public label = '{{ panelName }}'
+
+  public resources = [
+    // Ajouter les resources ici
+  ]
+
+  public pages = [
+    // Ajouter les pages ici
+  ]
+
+  constructor() {
+    super()
+
+    // Theme configuration
+    this.brandName('{{ panelName }}')
+      .colors({
+        primary: '220 80% 50%',
+      })
+      .darkMode('auto')
+  }
+
+  public configureDashboard(): Dashboard {
+    return Dashboard.make()
+      .title('Dashboard')
+      .widgets([
+        StatsWidget.make('overview').stat({ label: 'Bienvenue', value: 'Hello' }),
+      ])
+  }
+}

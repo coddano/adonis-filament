@@ -1,0 +1,34 @@
+{{{
+  exports({
+    to: app.makePath('app/Plugins', pluginDirectoryName, pluginClassName + '.ts')
+  })
+}}}
+import { Panel } from '#filament/Core/Panel'
+import { Plugin, PluginRuntimeContext } from '#filament/Core/Plugin'
+{{#if hasStarterResource}}
+import {{ resourceClassName }} from './Resources/{{ resourceClassName }}.js'
+{{/if}}
+
+export default class {{ pluginClassName }} implements Plugin {
+  public getId(): string {
+    return '{{ pluginId }}'
+  }
+
+  public register(panel: Panel, _context?: PluginRuntimeContext): void {
+{{#if hasStarterResource}}
+    panel.addResource({{ resourceClassName }})
+{{#else}}
+    // panel.addResource(...)
+    // panel.addPage(...)
+    // panel.addNavigationGroup({ label: 'Plugin', items: [] })
+    // panel.addHeaderAction({ name: 'sync', label: 'Sync' })
+    // panel.addRecordAction({ name: 'archive', label: 'Archive' })
+    // panel.addBulkAction({ name: 'bulk-archive', label: 'Archive bulk' })
+    // panel.addMiddleware(async () => ...)
+{{/if}}
+  }
+
+  public boot(_panel: Panel, _context?: PluginRuntimeContext): void {
+    // Optional hook executed during panel boot
+  }
+}

@@ -1,0 +1,70 @@
+{{#var entity = generators.createEntity(name)}}
+{{#var modelName = generators.modelName(entity.name)}}
+{{#var modelFileName = string(modelName).snakeCase().toString()}}
+{{#var resourceFileName = string(modelName).pascalCase().suffix('Resource').toString()}}
+{{{
+  exports({
+    to: app.makePath('app/Admin/Resources', resourceFileName + '.ts')
+  })
+}}}
+import { Resource } from '#filament/Core/Resource'
+import {{ modelName }} from '#models/{{ modelFileName }}'
+{{#if hasRelationModelImports}}
+{{{ relationModelImports }}}
+{{/if}}
+import { Form } from '#filament/Forms/Form'
+import { Table } from '#filament/Tables/Table'
+{{#if hasFormImports}}
+import { {{ formImports }} } from '#filament/Forms/Components/index'
+{{/if}}
+{{#if hasTableImports}}
+import { {{ tableImports }} } from '#filament/Tables/Columns/index'
+{{/if}}
+{{#if hasActionImports}}
+import { {{ actionImports }} } from '#filament/Tables/Action'
+{{/if}}
+
+export default class {{ resourceFileName }} extends Resource {
+  public static model = {{ modelName }}
+  public static slug = '{{ resourceSlug }}'
+  public static navigationIcon = '{{ icon }}'
+  public static navigationLabel = '{{ navigationLabel }}'
+  public static singularLabel = '{{ singularLabel }}'
+{{#if tenantScoped}}
+  public static tenantScoped = true
+{{/if}}
+{{#if softDeletes}}
+  public static softDeletes = true
+{{/if}}
+{{#if viewPage}}
+  public static hasViewPage = true
+{{/if}}
+
+  public static form(form: Form): Form {
+    return form.schema([
+      {{{ formSchema }}}
+    ])
+  }
+
+  public static table(table: Table): Table {
+    return table
+      .columns([
+        {{{ tableColumns }}}
+      ])
+{{#if simple}}
+      // Simple resource — pas d'actions inline
+{{#else}}
+      .actions([
+{{#if viewPage}}
+        ViewAction.make(),
+{{/if}}
+        EditAction.make(),
+        DeleteAction.make(),
+      ])
+      .bulkActions([
+        BulkDeleteAction.make(),
+      ])
+{{/if}}
+      .defaultSort('{{ defaultSortColumn }}', 'desc')
+  }
+}
