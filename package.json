@@ -4,6 +4,14 @@
   "private": false,
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coddano/adonis-filament.git"
+  },
+  "homepage": "https://github.com/coddano/adonis-filament#readme",
+  "bugs": {
+    "url": "https://github.com/coddano/adonis-filament/issues"
+  },
   "exports": {
     ".": "./build/package/index.js",
     "./commands": "./build/package/commands.js",
@@ -14,7 +22,8 @@
     "build/commands",
     "build/package",
     "stubs",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "start": "node bin/server.js",

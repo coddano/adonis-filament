@@ -1,5 +1,11 @@
 # Adonis Admin Engine
 
+[![npm](https://img.shields.io/npm/v/adonis-admin-engine?label=npm)](https://www.npmjs.com/package/adonis-admin-engine)
+[![npm (rc)](https://img.shields.io/npm/v/adonis-admin-engine/rc?label=rc)](https://www.npmjs.com/package/adonis-admin-engine?activeTab=versions)
+[![npm downloads](https://img.shields.io/npm/dm/adonis-admin-engine)](https://www.npmjs.com/package/adonis-admin-engine)
+[![CI](https://github.com/coddano/adonis-filament/actions/workflows/ci.yml/badge.svg)](https://github.com/coddano/adonis-filament/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/adonis-admin-engine)](./LICENSE)
+
 Server-driven admin panel for **AdonisJS 6**, inspired by Laravel Filament, with:
 
 - AdonisJS 6 + Inertia.js
@@ -8,6 +14,10 @@ Server-driven admin panel for **AdonisJS 6**, inspired by Laravel Filament, with
 - CLI generators (`make:filament-resource`, `make:filament-panel`)
 - Multi-tenancy and permissions (RBAC)
 - Soft-delete UI (`trashed`, `restore`, `force-delete`) on compatible resources
+
+## Changelog
+
+See `./CHANGELOG.md` for release notes.
 
 ## Requirements
 
@@ -293,4 +303,3 @@ The package now exposes:
 - commands via `adonis-admin-engine/commands`
 - Filament classes via `adonis-admin-engine/Filament/*`
 
-The project is ready for npm publication.
