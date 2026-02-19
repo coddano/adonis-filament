@@ -10,6 +10,22 @@ DEFAULT_TARBALL_PATH="$ROOT_DIR/${PACKAGE_TARBALL_BASE}-${PACKAGE_VERSION}.tgz"
 TARBALL_PATH="${1:-$DEFAULT_TARBALL_PATH}"
 HOST_DIR="$(mktemp -d /tmp/adonis-admin-smoke-XXXXXX)"
 
+if command -v rg >/dev/null 2>&1; then
+  filter_q() {
+    rg -q "$1"
+  }
+  filter_print() {
+    rg "$1"
+  }
+else
+  filter_q() {
+    grep -E -q "$1"
+  }
+  filter_print() {
+    grep -E "$1"
+  }
+fi
+
 echo "==> Root: $ROOT_DIR"
 echo "==> Host: $HOST_DIR"
 
@@ -50,7 +66,7 @@ perl -0777 -i -pe "s/, \(\) => import\('adonis-admin-engine\/commands'\)//g" ado
 perl -0777 -i -pe "s/\n\s+\(\) => import\('#providers\/filament_provider'\)\n//s" adonisrc.ts
 
 echo "==> Pre-install check (no filament commands)"
-if node ace list | rg -q "make:filament|filament:plugin:publish"; then
+if node ace list | filter_q "make:filament|filament:plugin:publish"; then
   echo "Filament commands are already present before installation" >&2
   exit 1
 fi
@@ -64,7 +80,7 @@ echo "==> Configuring package"
 node ace configure adonis-admin-engine
 
 echo "==> Post-install check (commands available)"
-node ace list | rg "make:filament-panel|make:filament-resource|make:filament-plugin|filament:plugin:publish"
+node ace list | filter_print "make:filament-panel|make:filament-resource|make:filament-plugin|filament:plugin:publish"
 
 echo "==> Running real package commands"
 node ace make:filament-panel BackofficePanel >/dev/null
