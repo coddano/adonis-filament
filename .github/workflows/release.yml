@@ -49,14 +49,27 @@ jobs:
             exit 1
           fi
 
+      - name: Prepare publish version (canary on branch pushes)
+        if: startsWith(github.ref, 'refs/heads/')
+        run: |
+          BASE_STABLE_VERSION="$(node -e "const v=require('./package.json').version.split('-')[0]; process.stdout.write(v)")"
+          SHORT_SHA="${GITHUB_SHA::7}"
+          CANARY_VERSION="${BASE_STABLE_VERSION}-canary.${GITHUB_RUN_NUMBER}.${SHORT_SHA}"
+          npm version "$CANARY_VERSION" --no-git-tag-version
+          echo "Using canary version: $CANARY_VERSION"
+
       - name: Resolve npm dist-tag
         id: tag
         run: |
-          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-          if [[ "$PACKAGE_VERSION" == *-* ]]; then
-            echo "dist_tag=rc" >> "$GITHUB_OUTPUT"
+          if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+            echo "dist_tag=canary" >> "$GITHUB_OUTPUT"
           else
-            echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
+            PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+            if [[ "$PACKAGE_VERSION" == *-* ]]; then
+              echo "dist_tag=rc" >> "$GITHUB_OUTPUT"
+            else
+              echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Check if version already exists on npm
